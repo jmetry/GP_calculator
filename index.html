@@ -17,61 +17,67 @@
     --bad: #f87171;
   }
   * { box-sizing: border-box; }
+  html, body {
+    height: 100%;
+  }
   body {
     background: var(--bg);
     color: var(--text);
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
     display: flex;
     justify-content: center;
+    align-items: center;
+    min-height: 100vh;
     padding: 24px 16px;
     margin: 0;
   }
   .card {
     background: var(--card);
     border: 1px solid var(--border);
-    border-radius: 14px;
-    padding: 28px;
+    border-radius: 18px;
+    padding: 40px;
     width: 100%;
-    max-width: 460px;
+    max-width: 620px;
     box-shadow: 0 4px 20px rgba(0,0,0,0.3);
   }
   h1 {
-    font-size: 1.3rem;
-    margin: 0 0 4px 0;
+    font-size: 2rem;
+    margin: 0 0 8px 0;
     color: var(--accent-light);
   }
   p.subtitle {
     color: var(--muted);
-    margin: 0 0 24px 0;
-    font-size: 0.9rem;
+    margin: 0 0 32px 0;
+    font-size: 1.15rem;
   }
   .field {
-    margin-bottom: 18px;
+    margin-bottom: 24px;
   }
   label {
     display: block;
-    font-size: 0.85rem;
+    font-size: 1.1rem;
     color: var(--muted);
-    margin-bottom: 6px;
+    margin-bottom: 8px;
   }
   .input-wrap {
     position: relative;
   }
   .input-wrap span {
     position: absolute;
-    left: 12px;
+    left: 16px;
     top: 50%;
     transform: translateY(-50%);
     color: var(--muted);
+    font-size: 1.2rem;
   }
   input[type="number"] {
     width: 100%;
     background: var(--bg);
     border: 1px solid var(--border);
-    border-radius: 8px;
-    padding: 10px 12px 10px 26px;
+    border-radius: 10px;
+    padding: 16px 16px 16px 34px;
     color: var(--text);
-    font-size: 1rem;
+    font-size: 1.3rem;
   }
   input[type="number"]:focus {
     outline: none;
@@ -80,20 +86,20 @@
   .divider {
     height: 1px;
     background: var(--border);
-    margin: 22px 0;
+    margin: 32px 0;
   }
   .result-box {
     background: var(--bg);
     border: 1px solid var(--border);
-    border-radius: 10px;
-    padding: 18px;
+    border-radius: 14px;
+    padding: 26px;
     margin-top: 8px;
   }
   .result-row {
     display: flex;
     justify-content: space-between;
-    padding: 6px 0;
-    font-size: 0.92rem;
+    padding: 9px 0;
+    font-size: 1.15rem;
     color: var(--muted);
   }
   .result-row.total {
@@ -102,17 +108,17 @@
   }
   .gp-display {
     text-align: center;
-    margin-top: 14px;
+    margin-top: 22px;
   }
   .gp-percent {
-    font-size: 2.6rem;
+    font-size: 4.2rem;
     font-weight: 700;
     line-height: 1;
   }
   .gp-label {
     color: var(--muted);
-    font-size: 0.85rem;
-    margin-top: 4px;
+    font-size: 1.1rem;
+    margin-top: 8px;
   }
   .good { color: var(--good); }
   .warn { color: var(--warn); }
@@ -213,3 +219,5 @@
 </script>
 </body>
 </html>
+
+
