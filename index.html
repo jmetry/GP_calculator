@@ -2,179 +2,287 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Weekly GP% Calculator</title>
 <style>
-  :root {
-    --bg: #1c1917;
-    --card: #292524;
-    --border: #44403c;
-    --text: #f5f5f4;
-    --muted: #a8a29e;
-    --accent: #b45309;
-    --accent-light: #f59e0b;
-    --good: #4ade80;
-    --warn: #fbbf24;
-    --bad: #f87171;
+  @import url('https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Roboto+Mono:wght@400;500;700&display=swap');
+
+  :root{
+    --paper:#e9dfc8;
+    --paper-dark:#dcd0b2;
+    --ink:#2b2420;
+    --blood:#8a2b23;
+    --blood-dark:#6e211b;
+    --line:#b8a97e;
+    --good:#3f6b3f;
+    --warn:#9a6a1a;
+    --bad:#8a2b23;
   }
-  * { box-sizing: border-box; }
-  html, body {
-    height: 100%;
+
+  *{box-sizing:border-box;}
+
+  body{
+    margin:0;
+    min-height:100vh;
+    background:
+      repeating-linear-gradient(0deg, rgba(0,0,0,0.02) 0px, rgba(0,0,0,0.02) 1px, transparent 1px, transparent 3px),
+      var(--paper);
+    font-family:'Roboto Mono', monospace;
+    color:var(--ink);
+    display:flex;
+    align-items:flex-start;
+    justify-content:center;
+    padding:32px 16px 60px;
   }
-  body {
-    background: var(--bg);
-    color: var(--text);
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-    display: flex;
-    justify-content: center;
-    align-items: stretch;
-    min-height: 100vh;
-    padding: 0;
-    margin: 0;
+
+  .ticket{
+    width:100%;
+    max-width:420px;
+    background:var(--paper);
+    border:2px solid var(--ink);
+    position:relative;
+    box-shadow:6px 6px 0 rgba(43,36,32,0.15);
   }
-  .card {
-    background: var(--card);
-    border-radius: 0;
-    padding: 5vh 6vw;
-    width: 100%;
-    max-width: 900px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    min-height: 100vh;
+
+  .ticket::before{
+    content:"";
+    position:absolute;
+    inset:6px;
+    border:1px dashed var(--line);
+    pointer-events:none;
   }
-  h1 {
-    font-size: clamp(2.2rem, 9vw, 3.4rem);
-    margin: 0 0 10px 0;
-    color: var(--accent-light);
+
+  .header{
+    text-align:center;
+    padding:22px 20px 16px;
+    border-bottom:2px solid var(--ink);
   }
-  p.subtitle {
-    color: var(--muted);
-    margin: 0 0 5vh 0;
-    font-size: clamp(1.15rem, 4.5vw, 1.5rem);
+
+  .header .eyebrow{
+    font-family:'Oswald', sans-serif;
+    font-size:11px;
+    letter-spacing:0.35em;
+    color:var(--blood);
+    font-weight:600;
   }
-  .field {
-    margin-bottom: 4vh;
+
+  .header h1{
+    font-family:'Oswald', sans-serif;
+    font-size:26px;
+    letter-spacing:0.04em;
+    margin:6px 0 2px;
+    font-weight:700;
+    text-transform:uppercase;
   }
-  label {
-    display: block;
-    font-size: clamp(1.15rem, 4.5vw, 1.4rem);
-    color: var(--muted);
-    margin-bottom: 12px;
+
+  .header .sub{
+    font-size:11px;
+    color:#6b6156;
+    letter-spacing:0.06em;
   }
-  .input-wrap {
-    position: relative;
+
+  .cut-line{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    padding:0 20px;
+    margin-top:14px;
   }
-  .input-wrap span {
-    position: absolute;
-    left: 20px;
-    top: 50%;
-    transform: translateY(-50%);
-    color: var(--muted);
-    font-size: clamp(1.3rem, 4.5vw, 1.6rem);
+  .cut-line span{
+    font-size:9px;
+    letter-spacing:0.2em;
+    color:#8a7f6f;
   }
-  input[type="number"] {
-    width: 100%;
-    background: var(--bg);
-    border: 1px solid var(--border);
-    border-radius: 14px;
-    padding: clamp(18px, 4vh, 26px) 18px clamp(18px, 4vh, 26px) 46px;
-    color: var(--text);
-    font-size: clamp(1.4rem, 5.5vw, 1.8rem);
+  .cut-line::before, .cut-line::after{
+    content:"";
+    flex:1;
+    border-top:1px dashed var(--line);
   }
-  input[type="number"]:focus {
-    outline: none;
-    border-color: var(--accent-light);
+
+  form{
+    padding:16px 20px 4px;
   }
-  .divider {
-    height: 1px;
-    background: var(--border);
-    margin: 5vh 0;
+
+  .field{
+    margin-bottom:16px;
   }
-  .result-box {
-    background: var(--bg);
-    border: 1px solid var(--border);
-    border-radius: 16px;
-    padding: 4vh 5vw;
-    margin-top: 8px;
+
+  label{
+    display:block;
+    font-family:'Oswald', sans-serif;
+    font-size:12px;
+    text-transform:uppercase;
+    letter-spacing:0.06em;
+    margin-bottom:6px;
+    color:var(--ink);
   }
-  .result-row {
-    display: flex;
-    justify-content: space-between;
-    padding: 14px 0;
-    font-size: clamp(1.15rem, 4.5vw, 1.5rem);
-    color: var(--muted);
+
+  .input-wrap{
+    position:relative;
+    display:flex;
+    align-items:center;
+    border-bottom:2px solid var(--ink);
   }
-  .result-row.total {
-    color: var(--text);
-    font-weight: 600;
+
+  .input-wrap .prefix{
+    font-size:14px;
+    color:var(--blood);
+    font-weight:700;
+    margin-right:4px;
   }
-  .gp-display {
-    text-align: center;
-    margin-top: 4vh;
+
+  input[type="number"]{
+    flex:1;
+    width:100%;
+    border:none;
+    background:transparent;
+    font-family:'Roboto Mono', monospace;
+    font-size:16px;
+    padding:8px 2px;
+    color:var(--ink);
+    outline:none;
   }
-  .gp-percent {
-    font-size: clamp(4.5rem, 20vw, 7rem);
-    font-weight: 700;
-    line-height: 1;
+
+  input[type="number"]:focus-visible{
+    outline:2px solid var(--blood);
+    outline-offset:2px;
   }
-  .gp-label {
-    color: var(--muted);
-    font-size: clamp(1.05rem, 4vw, 1.4rem);
-    margin-top: 12px;
+
+  input::placeholder{ color:#a89b86; }
+
+  .results{
+    margin:20px 20px 22px;
+    padding-top:16px;
+    border-top:2px solid var(--ink);
   }
-  .good { color: var(--good); }
-  .warn { color: var(--warn); }
-  .bad { color: var(--bad); }
+
+  .row{
+    display:flex;
+    justify-content:space-between;
+    align-items:baseline;
+    padding:7px 0;
+    border-bottom:1px dotted var(--line);
+    font-size:13px;
+  }
+
+  .row .k{
+    color:#5a5147;
+    letter-spacing:0.03em;
+  }
+
+  .row .v{
+    font-weight:700;
+    font-size:15px;
+  }
+
+  .row.total{
+    border-bottom:none;
+    border-top:2px solid var(--ink);
+    margin-top:8px;
+    padding-top:14px;
+  }
+
+  .row.total .k{
+    font-family:'Oswald', sans-serif;
+    text-transform:uppercase;
+    font-size:12px;
+    color:var(--ink);
+    letter-spacing:0.08em;
+  }
+
+  .row.total .v{
+    font-size:17px;
+  }
+
+  .gp-display{
+    text-align:center;
+    margin-top:22px;
+  }
+
+  .gp-percent{
+    font-family:'Oswald', sans-serif;
+    font-size:52px;
+    font-weight:700;
+    line-height:1;
+    color:var(--ink);
+  }
+
+  .gp-percent.good{ color:var(--good); }
+  .gp-percent.warn{ color:var(--warn); }
+  .gp-percent.bad{ color:var(--bad); }
+
+  .gp-label{
+    font-size:10px;
+    letter-spacing:0.18em;
+    text-transform:uppercase;
+    color:#8a7f6f;
+    margin-top:6px;
+  }
+
+  .footer-note{
+    text-align:center;
+    padding:14px 20px 20px;
+    font-size:9.5px;
+    color:#8a7f6f;
+    letter-spacing:0.12em;
+    text-transform:uppercase;
+  }
 </style>
 </head>
 <body>
-<div class="card">
-  <h1>Weekly GP% Calculator</h1>
-  <p class="subtitle">Purveyor spend vs. net revenue for the week</p>
 
-  <div class="field">
-    <label for="outWest">Outwest — spend this week</label>
-    <div class="input-wrap">
-      <span>$</span>
-      <input type="number" id="outWest" placeholder="0.00" step="0.01" min="0">
-    </div>
+<div class="ticket">
+  <div class="header">
+    <div class="eyebrow">Weekly Ledger</div>
+    <h1>GP% Calculator</h1>
+    <div class="sub">Purveyor spend vs. net revenue</div>
   </div>
 
-  <div class="field">
-    <label for="westCoast">West Coast Prime — spend this week</label>
-    <div class="input-wrap">
-      <span>$</span>
-      <input type="number" id="westCoast" placeholder="0.00" step="0.01" min="0">
-    </div>
-  </div>
+  <div class="cut-line"><span>ENTER SPEND</span></div>
 
-  <div class="field">
-    <label for="netRevenue">Net Revenue — this week</label>
-    <div class="input-wrap">
-      <span>$</span>
-      <input type="number" id="netRevenue" placeholder="0.00" step="0.01" min="0">
+  <form>
+    <div class="field">
+      <label for="outWest">Outwest — spend this week</label>
+      <div class="input-wrap">
+        <span class="prefix">$</span>
+        <input type="number" id="outWest" placeholder="0.00" step="0.01" min="0">
+      </div>
     </div>
-  </div>
 
-  <div class="divider"></div>
+    <div class="field">
+      <label for="westCoast">West Coast Prime — spend this week</label>
+      <div class="input-wrap">
+        <span class="prefix">$</span>
+        <input type="number" id="westCoast" placeholder="0.00" step="0.01" min="0">
+      </div>
+    </div>
 
-  <div class="result-box">
-    <div class="result-row">
-      <span>Outwest</span>
-      <span id="outVal">$0.00</span>
+    <div class="field">
+      <label for="netRevenue">Net revenue — this week</label>
+      <div class="input-wrap">
+        <span class="prefix">$</span>
+        <input type="number" id="netRevenue" placeholder="0.00" step="0.01" min="0">
+      </div>
     </div>
-    <div class="result-row">
-      <span>West Coast Prime</span>
-      <span id="wcVal">$0.00</span>
+  </form>
+
+  <div class="results">
+    <div class="cut-line" style="padding:0; margin-top:0;"><span>TICKET SUMMARY</span></div>
+    <div class="row" style="margin-top:12px;">
+      <span class="k">Outwest</span>
+      <span class="v" id="outVal">$0.00</span>
     </div>
-    <div class="result-row total">
-      <span>Total Purveyor Spend</span>
-      <span id="totalSpend">$0.00</span>
+    <div class="row">
+      <span class="k">West Coast Prime</span>
+      <span class="v" id="wcVal">$0.00</span>
     </div>
-    <div class="result-row total">
-      <span>Net Revenue</span>
-      <span id="netVal">$0.00</span>
+    <div class="row total">
+      <span class="k">Total purveyor spend</span>
+      <span class="v" id="totalSpend">$0.00</span>
+    </div>
+    <div class="row total">
+      <span class="k">Net revenue</span>
+      <span class="v" id="netVal">$0.00</span>
     </div>
 
     <div class="gp-display">
@@ -182,6 +290,8 @@
       <div class="gp-label">GP% for the week</div>
     </div>
   </div>
+
+  <div class="footer-note">Weekly purveyor &amp; revenue worksheet</div>
 </div>
 
 <script>
@@ -220,5 +330,6 @@
 
   [outWest, westCoast, netRevenue].forEach(el => el.addEventListener('input', calculate));
 </script>
+
 </body>
 </html>
