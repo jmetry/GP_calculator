@@ -258,6 +258,14 @@
     </div>
 
     <div class="field">
+      <label for="misc">Miscellaneous — other purveyors</label>
+      <div class="input-wrap">
+        <span class="prefix">$</span>
+        <input type="number" id="misc" placeholder="0.00" step="0.01" min="0">
+      </div>
+    </div>
+
+    <div class="field">
       <label for="netRevenue">Net revenue — this week</label>
       <div class="input-wrap">
         <span class="prefix">$</span>
@@ -275,6 +283,10 @@
     <div class="row">
       <span class="k">West Coast Prime</span>
       <span class="v" id="wcVal">$0.00</span>
+    </div>
+    <div class="row">
+      <span class="k">Miscellaneous</span>
+      <span class="v" id="miscVal">$0.00</span>
     </div>
     <div class="row total">
       <span class="k">Total purveyor spend</span>
@@ -297,6 +309,7 @@
 <script>
   const outWest = document.getElementById('outWest');
   const westCoast = document.getElementById('westCoast');
+  const misc = document.getElementById('misc');
   const netRevenue = document.getElementById('netRevenue');
 
   function fmt(n) {
@@ -306,11 +319,13 @@
   function calculate() {
     const ow = parseFloat(outWest.value) || 0;
     const wc = parseFloat(westCoast.value) || 0;
+    const mc = parseFloat(misc.value) || 0;
     const rev = parseFloat(netRevenue.value) || 0;
-    const totalSpend = ow + wc;
+    const totalSpend = ow + wc + mc;
 
     document.getElementById('outVal').textContent = fmt(ow);
     document.getElementById('wcVal').textContent = fmt(wc);
+    document.getElementById('miscVal').textContent = fmt(mc);
     document.getElementById('totalSpend').textContent = fmt(totalSpend);
     document.getElementById('netVal').textContent = fmt(rev);
 
@@ -328,7 +343,7 @@
     gpEl.className = 'gp-percent ' + (gp >= 40 ? 'good' : gp >= 30 ? 'warn' : 'bad');
   }
 
-  [outWest, westCoast, netRevenue].forEach(el => el.addEventListener('input', calculate));
+  [outWest, westCoast, misc, netRevenue].forEach(el => el.addEventListener('input', calculate));
 </script>
 
 </body>
